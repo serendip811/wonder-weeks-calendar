@@ -288,8 +288,13 @@
             return this.today.getYear() == date.getYear() && this.today.getMonth() == date.getMonth() && this.today.getDate() == date.getDate()
           },
           selectWonderWeeks(event) {
-            if(event.target.classList[0] == 'wonder')
+            if(event.target.classList[0] == 'wonder'){
               this.selectedWonderWeeks = event.target.classList[1]
+              gtag('event', 'click', {
+                'event_category' : 'calendar',
+                'event_label' : 'select wonder weeks'
+              });
+            }
           },
           close() {
             this.selectedWonderWeeks = null
@@ -327,15 +332,32 @@
             });
           },
           updateSigninStatus(isSignedIn) {
+            gtag('event', 'event', {
+              'event_category' : 'gapi',
+              'event_label' : 'signed in'
+            });
             this.isSignedIn = isSignedIn
           },
           signIn() {
+            gtag('event', 'click', {
+              'event_category' : 'gapi',
+              'event_label' : 'sign in'
+            });
+
             gapi.auth2.getAuthInstance().signIn();
           },
           signOut() {
+            gtag('event', 'click', {
+              'event_category' : 'gapi',
+              'event_label' : 'sign out'
+            });
             gapi.auth2.getAuthInstance().signOut();
           },
           addEvents() {
+            gtag('event', 'click', {
+              'event_category' : 'gapi',
+              'event_label' : 'add events'
+            });
             that = this
             this.pendingAddEvent = true
             let batch = gapi.client.newBatch();
