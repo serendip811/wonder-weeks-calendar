@@ -101,10 +101,8 @@
             </div>
 
             <div class="has-text-right">
+              <button class="button is-link is-small" v-on:click="addEventsWithIcs">{{"맥/아이폰 캘린더에 추가하기" | lang(language)}}</button>
               <button id="authorize_button" class="button is-primary is-small" v-if="!isSignedIn" v-on:click="signIn">{{"구글 계정 로그인하고 캘린더에 추가하기" | lang(language)}}</button>
-
-            </div>
-            <div class="has-text-right">
               <button id="add_button" class="button is-link is-small" v-if="isSignedIn" v-on:click="addEvents">{{"구글 캘린더에 추가하기" | lang(language)}}</button>
               <button id="signout_button" class="button is-danger is-small" v-if="isSignedIn" v-on:click="signOut">{{"로그아웃" | lang(language)}}</button>
             </div>
@@ -194,6 +192,7 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
     <script src="lang.js"></script>
+    <script src="ics.deps.min.js"></script>
     <script type="text/javascript">
       // Client ID and API key from the Developer Console
       const CLIENT_ID = '1042299068627-dorfc5bfa2ssg7tle9vr4f0porre5mg0.apps.googleusercontent.com';
@@ -427,6 +426,23 @@
               alert("추가되었습니다!");
             });
           },
+          addEventsWithIcs() {  
+            gtag('event', 'click', {  
+              'event_category' : 'gapi',  
+              'event_label' : 'add events ics'  
+            }); 
+            this.pendingAddEvent = true 
+            var cal = ics();  
+            for(let idx in this.wonderWeeks) {  
+              wonderWeek = this.wonderWeeks[idx]  
+              let desc = WONDER_WEEKS_DESC[wonderWeek.title]  
+              wonderWeek.endDate.setDate(wonderWeek.endDate.getDate() + 1); 
+              cal.addEvent(desc.name, desc.desc +'\\n\\n' + desc.sleep, "", wonderWeek.startDate, wonderWeek.endDate);  
+            } 
+            let calBuild = cal.build(); 
+            window.open(encodeURI("data:text/calendar;charset=utf8," + calBuild));  
+            this.pendingAddEvent = false  
+          },
           copyUrl() {
             let that = this
             this.copying = true
@@ -512,7 +528,7 @@
             }
           }
         },
-        Create(){
+        created(){
           let uri = window.location.href.split('?');
           if (uri.length == 2)
           {
@@ -528,7 +544,6 @@
               this.birthDate = getVars.birthDate
           }
         },
-
       })
 
       function handleClientLoad() {
