@@ -46,136 +46,152 @@
     </style>
   </head>
   <body>
-    <nav class="navbar is-fixed-top" role="navigation" aria-label="main navigation">
-      <div class="navbar-brand">
-        <a class="navbar-item" href="#">
-          <img src="face.ico">
-          Wonder Weeks Calendar
-        </a>
-      </div>
-    </nav>
+    <div id="calendar">
+      <nav class="navbar is-fixed-top" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+          <a class="navbar-item" href="#">
+            <img src="face.ico">
+            Wonder Weeks Calendar
+          </a>
+          <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" v-on:click="toggleMenu">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+          </a>
 
-    <section id="calendar" class="section">
-      <div class="container">
-        <div class="notification is-danger" v-if="isDisAllowedBrowser">
-          {{"카카오톡 내부에서는 구글 계정 로그인에 실패할 수 있습니다." | lang}}
-          <div>
-            <a href="googlechromes://pumped-citrine-weeder.glitch.me/">{{"크롬으로 열기" | lang}}</a>
-            <a href="#" v-on:click="copyUrl">{{"URL복사하기" | lang}}<i v-if="copying" class="fas fa-check"></i></a>
-          </div>
         </div>
-        <div class="field is-horizontal">
-          <div class="field-label is-normal">
-            <label class="label">{{"출산예정일" | lang}}<br/><small class="has-text-info">({{"출산일이 아닌 출산 예정일 기준" | lang}})</small></label>
-          </div>
-          <div class="field-body">
-            <div class="field">
-              <p class="control">
-                <input class="input" type="date" v-model="birthDate" v-on:change="changeBirthDate">
-              </p>
-            </div>
-          </div>
-        </div>
-        <div v-if="birthDate">
-          <div>
-            <div class="title is-4 has-text-danger" v-if="dateIsWonderWeeks(new Date(new Date().getFullYear(),new Date().getMonth() , new Date().getDate()),0,0,0)"> * {{"오늘은 원더윅스입니다." | lang}}</div>
-            <div class="title is-4 has-text-success" v-else> * {{"오늘은 원더윅스가 아닙니다." | lang}}</div>
-          </div>
-
-          <div class="has-text-right">
-            <button id="authorize_button" class="button is-primary is-small" v-if="!isSignedIn" v-on:click="signIn">{{"구글 계정 로그인하고 캘린더에 추가하기" | lang}}</button>
-
-          </div>
-          <div class="has-text-right">
-            <button id="add_button" class="button is-link is-small" v-if="isSignedIn" v-on:click="addEvents">{{"구글 캘린더에 추가하기" | lang}}</button>
-            <button id="signout_button" class="button is-danger is-small" v-if="isSignedIn" v-on:click="signOut">{{"로그아웃" | lang}}</button>
-          </div>
-
-          <div class="has-text-right">
-            <span id="toggleButton"  v-on:click="showPrevMonth = !showPrevMonth">
-              <i v-if="!this.showPrevMonth" class="fas fa-toggle-off" >{{"과거 달력 보이기" | lang}}</i>
-              <i v-else class="fas fa-toggle-on">{{"과거 달력 숨기기" | lang}}</i>
-            </span>
-          </div>
-
-          <div v-for="monthylCalendar of monthylCalendars">
-            <div v-if="!isPrevMonth(monthylCalendar.date)" class="mb-6">
-              <div class="title is-5 has-text-weight-bold has-text-centered mb-2">{{monthylCalendar.date | dateToYYYYMM}}</div>
-              <table class="table is-bordered is-fullwidth">
-                <thead>
-                  <tr>
-                    <th class="has-text-danger">S</th>
-                    <th>M</th>
-                    <th>T</th>
-                    <th>W</th>
-                    <th>T</th>
-                    <th>F</th>
-                    <th class="has-text-link">S</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="week of monthylCalendar.weeks">
-                    <td v-for="day of week" v-bind:class="dateToClass(day)" v-on:click="selectWonderWeeks">{{day | dateToDD}}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          <div v-bind:class="selectedWonderWeeks==null?'modal':'modal is-active'">
-            <div class="modal-background" v-on:click="close"></div>
-            <div class="modal-content">
-              <div class="box">
-                <span class="title is-3">
-                  {{this.wonderWeeksDesc.name| lang}}
-                </span>
-                <hr/>
-                <span class="title is-5">
-                  {{"이 시기에는" | lang}}
-                </span>
-                <div>
-                  {{this.wonderWeeksDesc.desc| lang}}
-                </div>
-                <hr/>
-
-                <span class="title is-5">
-                  {{"수면에 대해" | lang}}
-                </span>
-                <div>
-                  {{this.wonderWeeksDesc.sleep| lang}}
-                </div>
+        <div :class="{'navbar-menu is-active': showMenu, 'navbar-menu': !showMenu}">
+          <div class="navbar-end">
+            <div class="navbar-item">
+              <div class="select">
+                <select v-model="language">
+                  <option v-for="lang of languages" :value="lang.key">{{lang.value}}</option>
+                </select>
               </div>
             </div>
-            <button class="modal-close is-large" aria-label="close" v-on:click="close"></button>
-          </div>
-          <div v-bind:class="pendingAddEvent ? 'modal is-active' : 'modal'">
-            <div class="modal-background"></div>
           </div>
         </div>
-        <div v-else>
-          <span class="title is-5">
-            {{"올바른 출산 예정일을 선택해주세요!" | lang}}
-          </span>
+      </nav>
+
+      <section class="section">
+        <div class="container">
+          <div class="notification is-danger" v-if="isDisAllowedBrowser">
+            {{"카카오톡 내부에서는 구글 계정 로그인에 실패할 수 있습니다." | lang(language)}}
+            <div>
+              <a href="googlechromes://pumped-citrine-weeder.glitch.me/">{{"크롬으로 열기" | lang(language)}}</a>
+              <a href="#" v-on:click="copyUrl">{{"URL복사하기" | lang(language)}}<i v-if="copying" class="fas fa-check"></i></a>
+            </div>
+          </div>
+          <div class="field is-horizontal">
+            <div class="field-label is-normal">
+              <label class="label">{{"출산예정일" | lang(language)}}<br/><small class="has-text-info">({{"출산일이 아닌 출산 예정일 기준" | lang(language)}})</small></label>
+            </div>
+            <div class="field-body">
+              <div class="field">
+                <p class="control">
+                  <input class="input" type="date" v-model="birthDate" v-on:change="changeBirthDate">
+                </p>
+              </div>
+            </div>
+          </div>
+          <div v-if="birthDate">
+            <div>
+              <div class="title is-4 has-text-danger" v-if="dateIsWonderWeeks(new Date(new Date().getFullYear(),new Date().getMonth() , new Date().getDate()),0,0,0)"> * {{"오늘은 원더윅스입니다." | lang(language)}}</div>
+              <div class="title is-4 has-text-success" v-else> * {{"오늘은 원더윅스가 아닙니다." | lang(language)}}</div>
+            </div>
+
+            <div class="has-text-right">
+              <button id="authorize_button" class="button is-primary is-small" v-if="!isSignedIn" v-on:click="signIn">{{"구글 계정 로그인하고 캘린더에 추가하기" | lang(language)}}</button>
+
+            </div>
+            <div class="has-text-right">
+              <button id="add_button" class="button is-link is-small" v-if="isSignedIn" v-on:click="addEvents">{{"구글 캘린더에 추가하기" | lang(language)}}</button>
+              <button id="signout_button" class="button is-danger is-small" v-if="isSignedIn" v-on:click="signOut">{{"로그아웃" | lang(language)}}</button>
+            </div>
+
+            <div class="has-text-right">
+              <span id="toggleButton"  v-on:click="showPrevMonth = !showPrevMonth">
+                <i v-if="!this.showPrevMonth" class="fas fa-toggle-off" >{{"과거 달력 보이기" | lang(language)}}</i>
+                <i v-else class="fas fa-toggle-on">{{"과거 달력 숨기기" | lang(language)}}</i>
+              </span>
+            </div>
+
+            <div v-for="monthylCalendar of monthylCalendars">
+              <div v-if="!isPrevMonth(monthylCalendar.date)" class="mb-6">
+                <div class="title is-5 has-text-weight-bold has-text-centered mb-2">{{monthylCalendar.date | dateToYYYYMM(language)}}</div>
+                <table class="table is-bordered is-fullwidth">
+                  <thead>
+                    <tr>
+                      <th class="has-text-danger">S</th>
+                      <th>M</th>
+                      <th>T</th>
+                      <th>W</th>
+                      <th>T</th>
+                      <th>F</th>
+                      <th class="has-text-link">S</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr v-for="week of monthylCalendar.weeks">
+                      <td v-for="day of week" v-bind:class="dateToClass(day)" v-on:click="selectWonderWeeks">{{day | dateToDD}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div v-bind:class="selectedWonderWeeks==null?'modal':'modal is-active'">
+              <div class="modal-background" v-on:click="close"></div>
+              <div class="modal-content">
+                <div class="box">
+                  <span class="title is-3">
+                    {{this.wonderWeeksDesc.name| lang(language)}}
+                  </span>
+                  <hr/>
+                  <span class="title is-5">
+                    {{"이 시기에는" | lang(language)}}
+                  </span>
+                  <div>
+                    {{this.wonderWeeksDesc.desc| lang(language)}}
+                  </div>
+                  <hr/>
+
+                  <span class="title is-5">
+                    {{"수면에 대해" | lang(language)}}
+                  </span>
+                  <div>
+                    {{this.wonderWeeksDesc.sleep| lang(language)}}
+                  </div>
+                </div>
+              </div>
+              <button class="modal-close is-large" aria-label="close" v-on:click="close"></button>
+            </div>
+            <div v-bind:class="pendingAddEvent ? 'modal is-active' : 'modal'">
+              <div class="modal-background"></div>
+            </div>
+          </div>
+          <div v-else>
+            <span class="title is-5">
+              {{"올바른 출산 예정일을 선택해주세요!" | lang(language)}}
+            </span>
+          </div>
         </div>
-
-
-      </div>
+      </section>
       <footer class="footer">
         <div class="content has-text-centered">
           <div>
-            {{"원더 윅스 주차별 설명은 babysleepsite.com을 참고했습니다." | lang}}
+            {{"원더 윅스 주차별 설명은 babysleepsite.com을 참고했습니다." | lang(language)}}
           </div>
           <div>
             serendip811@gmail.com
           </div>
           <div class="title is-7">
-            {{"이 웹페이지는 구글 계정과 개인 일정에 관련한 어떤 정보도 수집하거나 저장하지 않습니다." | lang}}
+            {{"이 웹페이지는 구글 계정과 개인 일정에 관련한 어떤 정보도 수집하거나 저장하지 않습니다." | lang(language)}}
           </div>
 
         </div>
       </footer>
-
-    </section>
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
     <script src="lang.js"></script>
     <script type="text/javascript">
@@ -265,24 +281,33 @@
           isSignedIn : false,
           pendingAddEvent : false,
           isDisAllowedBrowser: navigator.userAgent.indexOf("KAKAOTALK")>0,
-          copying: false
+          copying: false,
+          languages: [
+            { key :"ko", value :"한국어" },
+            { key :"en", value :"english" },
+          ],
+          language: navigator.language,
+          showMenu: false
         },
         filters: {
-          dateToYYYYMM: function(date) {
+          dateToYYYYMM: function(date, language) {
             if(date == null) return '';
-            if (navigator.language === 'en') return `${date.getFullYear()}년 ${date.getMonth()+1}월`
+            if(language == 'ko') return `${date.getFullYear()}년 ${date.getMonth()+1}월`
             else return `${language_en[(date.getMonth()+1)+"월"]} ${date.getFullYear()}`
           },
           dateToDD: function(date) {
             if(date == null) return '';
             return date.getDate()
           },
-          lang: function(str) {
-            if (navigator.language === 'en') return str;
+          lang: function(str, language) {
+            if (language == 'ko') return str;
             else return language_en[str] || str;
           }
         },
         methods: {
+          toggleMenu: function(){
+            this.showMenu = !this.showMenu
+          },
           dateToClass: function(date) {
             let classes = ""
             if(date == null) return classes
@@ -487,7 +512,7 @@
             }
           }
         },
-        created(){
+        Create(){
           let uri = window.location.href.split('?');
           if (uri.length == 2)
           {
@@ -509,6 +534,7 @@
       function handleClientLoad() {
         calendar.gapiLoad();
       }
+
     </script>
 
     <script async defer src="https://apis.google.com/js/api.js"
