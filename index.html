@@ -318,6 +318,10 @@
           }
         },
         methods: {
+          lang: function(str) {
+            if (this.language == 'ko') return str;
+            else return language_en[str] || str;
+          },
           toggleMenu: function(){
             this.showMenu = !this.showMenu
           },
@@ -418,8 +422,8 @@
               let desc = WONDER_WEEKS_DESC[wonderWeek.title]
               wonderWeek.endDate.setDate(wonderWeek.endDate.getDate() + 1);
               let event = {
-                'summary': desc.name,
-                'description': desc.desc +'\n' + desc.sleep,
+                'summary': this.lang(desc.name),
+                'description': this.lang(desc.desc) +'\n' + this.lang(desc.sleep),
                 'start': {
                   'date': `${wonderWeek.startDate.getFullYear()}-${wonderWeek.startDate.getMonth()+1}-${wonderWeek.startDate.getDate()}`,
                   'timeZone': 'Asia/Seoul'
@@ -437,7 +441,7 @@
             batch.then(function(){
               console.log('all jobs done!!!')
               that.pendingAddEvent = false
-              alert("추가되었습니다!");
+              alert(this.lang("추가되었습니다!"));
             });
           },
           addEventsWithIcs() {  
@@ -451,7 +455,7 @@
               wonderWeek = this.wonderWeeks[idx]  
               let desc = WONDER_WEEKS_DESC[wonderWeek.title]  
               wonderWeek.endDate.setDate(wonderWeek.endDate.getDate() + 1); 
-              cal.addEvent(desc.name, desc.desc +'\\n\\n' + desc.sleep, "", wonderWeek.startDate, wonderWeek.endDate);  
+              cal.addEvent(this.lang(desc.name), this.lang(desc.desc) +'\\n\\n' + this.lang(desc.sleep), "", wonderWeek.startDate, wonderWeek.endDate);  
             } 
             let calBuild = cal.build(); 
             window.open(encodeURI("data:text/calendar;charset=utf8," + calBuild));  
