@@ -6,19 +6,17 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://wonder-weeks-calendar.com">
     <meta property="og:title" content="Wonder Weeks Calendar">
-    <meta property="og:description" content="원더윅스 캘린더">
+    <meta property="og:description" content="Wonder Weeks Calendar">
     <meta property="og:image" content="http://i.imgur.com/bFW7Z65.png">
-    <meta name="description" content="원더윅스 캘린더">
-
+    <meta name="description" content="Wonder Weeks Calendar">
 
     <meta name="naver-site-verification" content="709c01f07e9f9c8da1caf200315e4c53afc88708" />
-
 
     <link rel="apple-touch-icon" sizes="114x114" href="face.ico">
     <link rel="shortcut icon" href="face.ico">
     <link rel="canonical" href="https://wonder-weeks-calendar.com">
 
-    <title>원더윅스 캘린더</title>
+    <title>Wonder Weeks Calendar</title>
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-V1SLBVG5HT"></script>
     <script>
@@ -57,18 +55,18 @@
       </div>
     </nav>
 
-    <section class="section">
-      <div id="calendar" class="container">
+    <section id="calendar" class="section">
+      <div class="container">
         <div class="notification is-danger" v-if="isDisAllowedBrowser">
-          카카오톡 내부에서는 구글 계정 로그인에 실패할 수 있습니다.
+          {{"카카오톡 내부에서는 구글 계정 로그인에 실패할 수 있습니다." | lang}}
           <div>
-            <a href="googlechromes://pumped-citrine-weeder.glitch.me/">크롬으로 열기</a>
-            <a href="#" v-on:click="copyUrl">URL복사하기<i v-if="copying" class="fas fa-check"></i></a>
+            <a href="googlechromes://pumped-citrine-weeder.glitch.me/">{{"크롬으로 열기" | lang}}</a>
+            <a href="#" v-on:click="copyUrl">{{"URL복사하기" | lang}}<i v-if="copying" class="fas fa-check"></i></a>
           </div>
         </div>
         <div class="field is-horizontal">
           <div class="field-label is-normal">
-            <label class="label">출산예정일<br/><small class="has-text-info">(출산일이 아닌 출산 예정일 기준)</small></label>
+            <label class="label">{{"출산예정일" | lang}}<br/><small class="has-text-info">({{"출산일이 아닌 출산 예정일 기준" | lang}})</small></label>
           </div>
           <div class="field-body">
             <div class="field">
@@ -80,23 +78,23 @@
         </div>
         <div v-if="birthDate">
           <div>
-            <div class="title is-4 has-text-danger" v-if="dateIsWonderWeeks(new Date(new Date().getFullYear(),new Date().getMonth() , new Date().getDate()),0,0,0)"> * 오늘은 원더윅스입니다.</div>
-            <div class="title is-4 has-text-success" v-else> * 오늘은 원더윅스가 아닙니다.</div>
+            <div class="title is-4 has-text-danger" v-if="dateIsWonderWeeks(new Date(new Date().getFullYear(),new Date().getMonth() , new Date().getDate()),0,0,0)"> * {{"오늘은 원더윅스입니다." | lang}}</div>
+            <div class="title is-4 has-text-success" v-else> * {{"오늘은 원더윅스가 아닙니다." | lang}}</div>
           </div>
 
           <div class="has-text-right">
-            <button id="authorize_button" class="button is-primary is-small" v-if="!isSignedIn" v-on:click="signIn">구글 계정 로그인하고 캘린더에 추가하기</button>
+            <button id="authorize_button" class="button is-primary is-small" v-if="!isSignedIn" v-on:click="signIn">{{"구글 계정 로그인하고 캘린더에 추가하기" | lang}}</button>
 
           </div>
           <div class="has-text-right">
-            <button id="add_button" class="button is-link is-small" v-if="isSignedIn" v-on:click="addEvents">구글 캘린더에 추가하기</button>
-            <button id="signout_button" class="button is-danger is-small" v-if="isSignedIn" v-on:click="signOut">로그아웃</button>
+            <button id="add_button" class="button is-link is-small" v-if="isSignedIn" v-on:click="addEvents">{{"구글 캘린더에 추가하기" | lang}}</button>
+            <button id="signout_button" class="button is-danger is-small" v-if="isSignedIn" v-on:click="signOut">{{"로그아웃" | lang}}</button>
           </div>
 
           <div class="has-text-right">
             <span id="toggleButton"  v-on:click="showPrevMonth = !showPrevMonth">
-              <i v-if="!this.showPrevMonth" class="fas fa-toggle-off" >과거 달력 보이기</i>
-              <i v-else class="fas fa-toggle-on">과거 달력 숨기기</i>
+              <i v-if="!this.showPrevMonth" class="fas fa-toggle-off" >{{"과거 달력 보이기" | lang}}</i>
+              <i v-else class="fas fa-toggle-on">{{"과거 달력 숨기기" | lang}}</i>
             </span>
           </div>
 
@@ -129,22 +127,22 @@
             <div class="modal-content">
               <div class="box">
                 <span class="title is-3">
-                  {{this.wonderWeeksDesc.name}}
+                  {{this.wonderWeeksDesc.name| lang}}
                 </span>
                 <hr/>
                 <span class="title is-5">
-                  이 시기에는
+                  {{"이 시기에는" | lang}}
                 </span>
                 <div>
-                  {{this.wonderWeeksDesc.desc}}
+                  {{this.wonderWeeksDesc.desc| lang}}
                 </div>
                 <hr/>
 
                 <span class="title is-5">
-                  수면에 대해
+                  {{"수면에 대해" | lang}}
                 </span>
                 <div>
-                  {{this.wonderWeeksDesc.sleep}}  
+                  {{this.wonderWeeksDesc.sleep| lang}}
                 </div>
               </div>
             </div>
@@ -156,7 +154,7 @@
         </div>
         <div v-else>
           <span class="title is-5">
-            올바른 출산 예정일을 선택해주세요!
+            {{"올바른 출산 예정일을 선택해주세요!" | lang}}
           </span>
         </div>
 
@@ -165,14 +163,13 @@
       <footer class="footer">
         <div class="content has-text-centered">
           <div>
-            원더 윅스 주차별 설명은 <a href="http://babysleepsite.com">babysleepsite.com</a>을 참고했습니다.
+            {{"원더 윅스 주차별 설명은 babysleepsite.com을 참고했습니다." | lang}}
           </div>
           <div>
             serendip811@gmail.com
           </div>
           <div class="title is-7">
-            이 웹페이지는 구글 계정과 개인 일정에 관련한 어떤 정보도 수집하거나 저장하지 않습니다.<br/>
-            This webpage does not collect or store any information related to your Google account and calendar.
+            {{"이 웹페이지는 구글 계정과 개인 일정에 관련한 어떤 정보도 수집하거나 저장하지 않습니다." | lang}}
           </div>
 
         </div>
@@ -180,6 +177,7 @@
 
     </section>
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="lang.js"></script>
     <script type="text/javascript">
       // Client ID and API key from the Developer Console
       const CLIENT_ID = '1042299068627-dorfc5bfa2ssg7tle9vr4f0porre5mg0.apps.googleusercontent.com';
@@ -272,11 +270,16 @@
         filters: {
           dateToYYYYMM: function(date) {
             if(date == null) return '';
-            return `${date.getFullYear()}년 ${date.getMonth()+1}월`
+            if (navigator.language === 'en') return `${date.getFullYear()}년 ${date.getMonth()+1}월`
+            else return `${language_en[(date.getMonth()+1)+"월"]} ${date.getFullYear()}`
           },
           dateToDD: function(date) {
             if(date == null) return '';
             return date.getDate()
+          },
+          lang: function(str) {
+            if (navigator.language === 'en') return str;
+            else return language_en[str] || str;
           }
         },
         methods: {
