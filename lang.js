@@ -1,4 +1,5 @@
 const language_en = {
+	"주차 별 설명 보기":"description by week",
 	"카카오톡 내부에서는 구글 계정 로그인에 실패할 수 있습니다." : "You may fail to log into your Google account inside KakaoTalk.",
 	"크롬으로 열기" : "Open with chrome",
 	"URL복사하기" : "Copy URL",
