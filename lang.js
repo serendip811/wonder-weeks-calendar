@@ -15,7 +15,7 @@ const language_en = {
 	"이 시기에는" : "At this time",
 	"수면에 대해" : "About sleep",
 	"올바른 출산 예정일을 선택해주세요!" : "Please choose the correct due date!",
-	"맥/아이폰 캘린더에 추가하기" : "Add to Mac/Iphone Calendar",
+	"ICS파일로 캘린더에 추가하기기" : "Add to Calendar from ICS file",
 	"원더 윅스 주차별 설명은 babysleepsite.com을 참고했습니다." : "Wonder Weeks explanations are from babysleepsite.com.",
 	"이 웹페이지는 구글 계정과 개인 일정에 관련한 어떤 정보도 수집하거나 저장하지 않습니다." : "This webpage does not collect or store any information related to your Google account and calendar.",
 	"추가되었습니다!":"finish!",

@@ -115,7 +115,7 @@
             </div>
 
             <div class="has-text-right">
-              <button class="button is-link is-small" v-on:click="addEventsWithIcs">{{"맥/아이폰 캘린더에 추가하기" | lang(language)}}</button>
+              <button class="button is-link is-small" v-on:click="addEventsWithIcs">{{"ICS파일로 캘린더에 추가하기" | lang(language)}}</button>
               <button id="authorize_button" class="button is-primary is-small" v-if="!isSignedIn" v-on:click="signIn">{{"구글 계정 로그인하고 캘린더에 추가하기" | lang(language)}}</button>
               <button id="add_button" class="button is-link is-small" v-if="isSignedIn" v-on:click="addEvents">{{"구글 캘린더에 추가하기" | lang(language)}}</button>
               <button id="signout_button" class="button is-danger is-small" v-if="isSignedIn" v-on:click="signOut">{{"로그아웃" | lang(language)}}</button>
