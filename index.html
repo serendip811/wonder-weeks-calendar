@@ -343,7 +343,7 @@
           selectWonderWeeks(event) {
             if(event.target.classList[0] == 'wonder'){
               this.selectedWonderWeeks = event.target.classList[1]
-              gtag('event', 'click', {
+              gtag('event', 'select-weeks', {
                 'event_category' : 'calendar',
                 'event_label' : 'select wonder weeks'
               });
@@ -385,14 +385,14 @@
             });
           },
           updateSigninStatus(isSignedIn) {
-            gtag('event', 'event', {
+            gtag('event', 'signed-in', {
               'event_category' : 'gapi',
               'event_label' : 'signed in'
             });
             this.isSignedIn = isSignedIn
           },
           signIn() {
-            gtag('event', 'click', {
+            gtag('event', 'sign-in', {
               'event_category' : 'gapi',
               'event_label' : 'sign in'
             });
@@ -400,14 +400,14 @@
             gapi.auth2.getAuthInstance().signIn();
           },
           signOut() {
-            gtag('event', 'click', {
+            gtag('event', 'sign-out', {
               'event_category' : 'gapi',
               'event_label' : 'sign out'
             });
             gapi.auth2.getAuthInstance().signOut();
           },
           addEvents() {
-            gtag('event', 'click', {
+            gtag('event', 'add-events', {
               'event_category' : 'gapi',
               'event_label' : 'add events'
             });
@@ -441,7 +441,7 @@
             });
           },
           addEventsWithIcs() {  
-            gtag('event', 'click', {  
+            gtag('event', 'add-events-ics', {  
               'event_category' : 'gapi',  
               'event_label' : 'add events ics'  
             }); 
@@ -458,6 +458,10 @@
             this.pendingAddEvent = false  
           },
           copyUrl() {
+            gtag('event', 'copy-url', {  
+              'event_category' : 'event',  
+              'event_label' : 'copy url'  
+            }); 
             let that = this
             this.copying = true
             let dummy = document.createElement('input'),
