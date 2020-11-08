@@ -1,7 +1,7 @@
 const language_en = {
 	"주차별 설명 보기":"description by week",
 	"카카오톡 내부에서는 구글 계정 로그인에 실패할 수 있습니다." : "You may fail to log into your Google account inside KakaoTalk.",
-	"크롬으로 열기" : "Open with chrome",
+	"크롬으로 열기" : "Open in chrome",
 	"URL복사하기" : "Copy URL",
 	"출산예정일" : "Due Date",
 	"출산일이 아닌 출산 예정일 기준" : "Based on the due date, not the birth date",

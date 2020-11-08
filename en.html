@@ -442,25 +442,7 @@
       </footer>
     </div>
     <script type="text/javascript">
-      let lang = navigator.language.substr(0,2)
-      if(lang == 'ko') {
-        let uri = window.location.href.split('?');
-        let birthDate = '';
-        if (uri.length == 2)
-        {
-          let vars = uri[1].split('&');
-          let getVars = {};
-          let tmp = '';
-          vars.forEach(function(v){
-            tmp = v.split('=');
-            if(tmp.length == 2)
-            getVars[tmp[0]] = tmp[1];
-          });
-          if(getVars.birthDate)
-            birthDate = getVars.birthDate
-        }
-        window.location.href = "ko.html" + (birthDate==""?"":"?birthDate=" + birthDate)
-      } 
+      const defaultLanguage = "en"
     </script>
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
     <script src="lang.js"></script>
