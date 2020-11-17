@@ -72,7 +72,7 @@
 
               <div class="navbar-dropdown">
                 <a :class="'wonder ' + meta.title + ' navbar-item'" v-for="meta in wonderWeeksMeta" v-on:click="selectWonderWeeks">
-                  {{ WONDER_WEEKS_DESC[meta.title].name }}
+                  {{ WONDER_WEEKS_DESC[meta.title].name | lang('en') }}
                 </a>
               </div>
             </div>
